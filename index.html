@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name = "viewport" content = "initial-scale=1.0, width=device-width">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="apple-touch-icon" href="img/heart.png">
+	<meta name="description" content="Hearts card game with HTML5.">
+	<meta name="keywords" content="Hearts HTML5 JavaScript">
+	<meta name="author" content="Yao Yujian">
+	<meta charset="UTF-8">
+	<title>Hearts</title>
+	<link rel='stylesheet' href='style.css' type='text/css' />
+	<link rel="manifest" href="manifest.json">
+	<meta name="theme-color" content="#111" />
+</head>
+<body ontouchstart="">
+	<div id = 'main-button-group'>
+		<button class = 'main-button newgame-but'>新遊戲</button>
+		<button class = 'main-button' id = 'settings-but'>設定</button>
+	</div>
+	<div id = 'game-region'></div>
+	<div id = 'control-region' hidden>
+		<div id = 'settings-dialog' hidden>
+			<h3>設定</h3>
+			<table>
+				<tbody>
+					<tr>
+						<th>玩家</th>
+						<th>名稱</th>
+						<th>等級</th>
+					</tr>
+					<tr>
+						<td>玩家 1(你):</td>
+						<td class = 'player-set-name one' contentEditable></td>
+					</tr>
+					<tr>
+						<td>玩家 2(東):</td>
+						<td class = 'player-set-name two' contentEditable></td>
+						<td class = 'player-diff two'>
+							<input type="number" min="1" max="4">
+						</td>
+					</tr>
+					<tr>
+						<td>玩家 3(北):</td>
+						<td class = 'player-set-name three' contentEditable></td>
+						<td class = 'player-diff three'>
+							<input type="number" min="1" max="4">
+						</td>
+					</tr>
+					<tr>
+						<td>玩家 4(西):</td>
+						<td class = 'player-set-name four' contentEditable></td>
+						<td class = 'player-diff four'>
+							<input type="number" min="1" max="4">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<button class="back-but">返回</button>
+		<button class="newgame-but">套用</button>
+	</div>
+	<button id="install-pwa" style="display:none;position:fixed;bottom:20px;right:20px;z-index:2000;">安裝 App</button>
+	<a href="https://github.com/yyjhao/html5-hearts"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+	<script data-main='js/main' src='js/lib/require.js'></script>
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-45751904-1', 'yjyao.com');
+	ga('send', 'pageview');
+
+	if ('serviceWorker' in navigator) {
+	  window.addEventListener('load', function() {
+	    navigator.serviceWorker.register('sw.js');
+	  });
+	}
+
+	let deferredPrompt;
+	const installBtn = document.getElementById('install-pwa');
+	window.addEventListener('beforeinstallprompt', (e) => {
+	  e.preventDefault();
+	  deferredPrompt = e;
+	  installBtn.style.display = 'block';
+	});
+	installBtn && installBtn.addEventListener('click', async () => {
+	  if (deferredPrompt) {
+	    deferredPrompt.prompt();
+	    const { outcome } = await deferredPrompt.userChoice;
+	    if (outcome === 'accepted') {
+	      installBtn.style.display = 'none';
+	    }
+	    deferredPrompt = null;
+	  }
+	});
+
+	</script>
+</body>
+</html>
