@@ -24,14 +24,28 @@ function(Player,  $,         ui){
         }
         var d = $.Deferred();
         var row = this.row;
-        ui.buttonClickOnce(function(){
+        var self = this;
+        
+        var originalClickHandler = function(){
+            var selectedCards = row.getSelected();
+            if(selectedCards.length === 0){
+                // 如果沒有選擇卡片，顯示警告信息並重新綁定
+                ui.showMessage('請先選擇一張牌！');
+                // 重新綁定同樣的處理函數
+                setTimeout(function(){
+                    ui.buttonClickOnce(originalClickHandler);
+                }, 0);
+                return;
+            }
             ui.hideMessage();
             ui.hideButton();
             validCards.forEach(function(c){
                 c.display.setSelectable(false);
             });
-            d.resolve(row.getSelected()[0]);
-        });
+            d.resolve(selectedCards[0]);
+        };
+        
+        ui.buttonClickOnce(originalClickHandler);
         return d;
     };
 
@@ -82,6 +96,7 @@ function(Player,  $,         ui){
         if(this.row.maxShift === 3){
             ui.showArrow();
         } else {
+            ui.hideMessage();
             ui.showButton("出牌！");
         }
     };
