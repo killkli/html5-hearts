@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hearts-pwa-v1';
+const CACHE_NAME = 'hearts-pwa-v1.2';
 const urlsToCache = [
   './',
   './index.html',
